@@ -1,6 +1,6 @@
 # Home Lab
 
-A personal IT homelab built using VMware Workstation on a custom built PC. Built to get comfortable troubleshooting and to learn networking, system administration, security, and IT infrastructure through hands-on experience. Includes rough notes from each lab session that document troubleshooting along with screenshots.
+A personal IT homelab built using VMware Workstation on a custom built PC. Built to get comfortable troubleshooting and to learn networking, system administration, security, and IT infrastructure through hands-on experience. Includes notes from each lab session that document troubleshooting along with screenshots.
 
 ## Environment
 - Host: Custom built desktop (Ryzen 7 7800X3D, 32GB RAM)
@@ -29,8 +29,10 @@ DMZ (192.168.2.x)
 - Troubleshot connectivity problems stemming from routing, DHCP, firewall, and system issues
 - Deployed Wazuh SIEM on a new Ubuntu VM and verified installation
 
-## In Progress
+## Coming Soon
 Connecting Ubuntu server to Wazuh and testing that logs and alerts work properly
+Implementing a Windows Server machine with Active Directory
+IDS/IPS
 
 ## Certifications
 - CompTIA Network+ (N10-009)
