@@ -1,4 +1,4 @@
-6/29/2026
+6/9/2026
 
 Familiarized myself with the Wazuh manager dashboard and deployed and tested agents on nginx and Kali machine
 
@@ -10,7 +10,7 @@ Retrieved admin password from Wazuh install password file:
 sudo tar -xOf wazuh-install-files.tar wazuh-install-files/wazuh-passwords.txt
 Learned how to view and filter logs in a SIEM and useful fields to inspect:
 agent.name, rule.description, rule.level, rule.id, data.srcip, full_log, and location
-Confirmed Wazuh generated alerts by simulating brute force SSH attempts from Kali machine:
+Confirmed Wazuh generated alerts by simulating brute-force SSH attempts from Kali machine:
 sudo tail -f /var/ossec/logs/alerts/alerts.log
 
 -Deployed Wazuh agent to DMZ nginx server:
@@ -58,14 +58,15 @@ What I learned:
 -Wazuh agents need network connectivity back to the manager before they can report logs
 -TCP 1514 is used for Wazuh agent communication
 -TCP 1515 is used for agent enrollment
+-The order of firewall rules matters
 -In a segmented network, firewall rules have to allow only the required traffic while keeping the DMZ isolated
 -nc -vz is useful for testing if a specific TCP port is reachable through the firewall
--systemctl status is not very useful for seeing root causes of agent errors, Wazuh's own ossec.log shows more specifics
+-systemctl status is not very the best option for seeing root causes of agent errors, Wazuh's own ossec.log shows more specifics
 -Wazuh alerts are based on logs it receives, not just any network traffic
 -Nmap scans do not create SIEM alerts by default
--SSH brute force attempts generate authentication logs, which Wazuh detects and turns into alerts
+-SSH brute-force attempts generate authentication logs, which Wazuh detects and turns into alerts
 -There are many useful fields to use when investigating alerts, such as agent.name, rule.description, rule.level, rule.id, data.srcip, full_log, and location
--The dashboard can lag or require refreshes, trailing /var/ossec/logs/alerts/alerts.log is useful when confirming whether Wazuh is detecting something
+-The dashboard can lag or require refreshes, tailing /var/ossec/logs/alerts/alerts.log is useful when confirming whether Wazuh is detecting something
 
 
 
