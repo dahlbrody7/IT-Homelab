@@ -1,0 +1,72 @@
+6/29/2026
+
+Familiarized myself with the Wazuh manager dashboard and deployed and tested agents on nginx and Kali machine
+
+What I did:
+-Visited the Wazuh dashboard page:
+https://(Wazuh Manager IP Address)
+Initially did http instead of https, learned that the dashboard is on port 443
+Retrieved admin password from Wazuh install password file:
+sudo tar -xOf wazuh-install-files.tar wazuh-install-files/wazuh-passwords.txt
+Learned how to view and filter logs in a SIEM and useful fields to inspect:
+agent.name, rule.description, rule.level, rule.id, data.srcip, full_log, and location
+Confirmed Wazuh generated alerts by simulating brute force SSH attempts from Kali machine:
+sudo tail -f /var/ossec/logs/alerts/alerts.log
+
+-Deployed Wazuh agent to DMZ nginx server:
+Used Wazuh dashboard agent deploy page
+Named agent nginx-dmz
+Followed instructions to deploy, had to open port 22 on nginx machine to access via SSH to install agent
+Added rules to pfSense DMZ firewall so the nginx machine Wazuh agent could communicate with the manager machine in the LAN:
+Allow (nginx IP address) -> (Wazuh Manager IP address) TCP 1514
+Allow (nginx IP address) -> (Wazuh Manager IP address) TCP 1515
+Block DMZ net -> LAN net any (added in the past)
+Made sure rules were ordered correctly
+Port 1514 is used for Wazuh agent communication, and TCP 1515 is used for agent enrollment
+The DMZ to LAN block rule still blocks general LAN access but the specific allow rules let the nginx agent reach the Wazuh manager on only the required ports
+Verified the nginx agent could reach the manager:
+nc -vz (Wazuh Manager IP address) 1514 (and 1515)
+
+-Troubleshot broken nginx agent:
+Agent failed to start
+Checked Wazuh agent logs instead of only systemctl to see cause
+Found out config still had "MANAGER_IP" placeholder, replaced it with actual manager IP address
+sudo systemctl status wazuh-agent
+sudo tail -100 /var/ossec/logs/ossec.log
+sudo nano /var/ossec/etc/ossec.conf
+Enrolled agent and removed old broken agent entry
+
+-Deployed Wazuh agent to Kali:
+Followed same deployment process
+Named agent kali-lan
+Installed and enabled SSH on Kali in order to install agent remotely
+Filtered logs to only show entries made by Kali agent
+Filtered by agent.name:kali-lan
+
+-Tested attack logging one last time:
+Ran nmap on Kali machine targeting nginx machine
+Noticed no log was generated in Wazuh
+Generated failed SSH attempts from Kali against nginx DMZ server
+Confirmed event appeared in Wazuh
+Verified alert was associated with nginx-dmz agent
+Verified source IP matched Kali
+Checked full log in dashboard
+
+What I learned:
+-Wazuh consists of multiple parts that work together
+-Wazuh dashboard is accessed through HTTPS on port 443, not normal HTTP
+-Wazuh agents need network connectivity back to the manager before they can report logs
+-TCP 1514 is used for Wazuh agent communication
+-TCP 1515 is used for agent enrollment
+-In a segmented network, firewall rules have to allow only the required traffic while keeping the DMZ isolated
+-nc -vz is useful for testing if a specific TCP port is reachable through the firewall
+-systemctl status is not very useful for seeing root causes of agent errors, Wazuh's own ossec.log shows more specifics
+-Wazuh alerts are based on logs it receives, not just any network traffic
+-Nmap scans do not create SIEM alerts by default
+-SSH brute force attempts generate authentication logs, which Wazuh detects and turns into alerts
+-There are many useful fields to use when investigating alerts, such as agent.name, rule.description, rule.level, rule.id, data.srcip, full_log, and location
+-The dashboard can lag or require refreshes, trailing /var/ossec/logs/alerts/alerts.log is useful when confirming whether Wazuh is detecting something
+
+
+
+
