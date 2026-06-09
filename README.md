@@ -28,7 +28,7 @@ DMZ (192.168.2.x)
 - Built a virtualized network with pfSense, with LAN + DMZ segmentation
 - Troubleshot connectivity problems stemming from routing, DHCP, firewall, and system issues
 - Deployed Wazuh SIEM on a new Ubuntu VM and verified installation
--Deployed Wazuh agents on all VMs and verified logs and alerts work properly
+- Deployed Wazuh agents on all VMs and verified logs and alerts work properly
 
 ## Coming Soon
 Implementing a Windows Server machine with Active Directory
