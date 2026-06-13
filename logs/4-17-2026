@@ -1,23 +1,27 @@
-SSH Access control and Session Termination
+4/17/2026
+
+SSH Access Control and Session Termination
 
 What I did:
-Connected to Ubuntu from Kali via SSH after multiple attempts
+-Connected to Ubuntu from Kali via SSH after multiple attempts:
 Observed both failed and successful login attempts in /var/log/auth.log
-Attempted to block access by:
+
+-Attempted to block access by:
 Denying port 22 in ufw
 Stopping the ssh service
 Noticed that the active ssh session remained connected
-Identified the active ssh session:
+
+-Identified the active ssh session:
 ps aux | grep sshd
-Terminated the session by killing the process:
+
+-Terminated the session by killing the process:
 kill (PID)
-Blocked new ssh connections using ufw
+-Blocked new ssh connections using ufw
 
 What I learned:
-Existing ssh sessions remain active even if ssh service is stopped or port is blocked
-Firewall rules affect new connections, not already established ones
-Each ssh session runs as its own process, which can be indentified and terminated using its PID
-Killing the ssh session process is required to immediately disconnect an active user
-There's a difference between service control (systemctl), network control (ufw), and process control (pid/kill)
-
-This simulates a basic incident response scenario where an active unauthorized session must be identified and terminated
+-Existing ssh sessions remain active even if ssh service is stopped or port is blocked
+-Firewall rules affect new connections, not already established ones
+-Each ssh session runs as its own process, which can be identified and terminated using its PID
+-Killing the ssh session process is required to immediately disconnect an active user
+-There is a difference between service control (systemctl), network control (ufw), and process control (pid/kill)
+-This simulates a basic incident response scenario where an active unauthorized session must be identified and terminated
