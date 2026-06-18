@@ -1,0 +1,67 @@
+6/18/2026
+
+Started lab hardening process and practiced making security decisions. Installed Wazuh agent on AD domain controller machine, blocked unused ports on all machines, and installed and configured Snort IDS for DMZ traffic through pfSense
+
+What I did:
+-Enabled SSH on AD machine to install Wazuh agent using PowerShell:
+Added OpenSSH:
+Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
+Started SSH:
+Start-Service sshd
+Allowed SSH through Windows Firewall:
+New-NetFirewallRule -Name sshd -DisplayName "OpenSSH Server (sshd)" -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22
+Installed the Wazuh agent by SSHing into the AD machine
+Then disabled SSH and blocked port 22 on Windows Firewall:
+Stop-Service sshd
+Remove-NetFirewallRule -DisplayName "OpenSSH Server (sshd)"
+Disabling SSH reduces attack surface by blocking a remote access method and follows least-privilege hardening
+
+-Troubleshot disconnected agents:
+Wazuh dashboard showed agents were disconnected
+Checked status of each agent:
+sudo systemctl status wazuh-agent
+Verified each agent was operational
+Verified pfSense firewall rules allowed communication between agents and manager
+Checked status of manager:
+sudo systemctl status wazuh-manager
+Showed operational but decided to restart anyway:
+sudo systemctl restart wazuh-manager
+Agents successfully connected after manager restert
+
+-Scanned LAN and DMZ subnets for open ports, reviewed exposed services, and blocked unnecessary inbound access:
+nmap --open 192.168.10.0/24
+nmap --open 192.168.2.0/24
+After scanning saw that tcp/22 (SSH) was open on all linux machines
+Decided to block 22 on linux machines:
+sudo ufw deny 22
+Verified that only necessary ports were open on all machines to reduce attack surface
+
+-Installed and configured Snort IDS on pfSense for DMZ traffic:
+Installed Snort package through pfSense Package Manager
+Added Snort to the OPT1/DMZ interface
+Enabled Snort in IDS mode with blocking disabled
+Enabled rule categories needed for basic detection/testing
+Enabled “Send Alerts to Firewall Log” so Snort alerts would also appear in pfSense logs
+
+-Troubleshot Snort detection:
+Nmap scan did not generate an alert
+Used pfSense packet capture to verify that traffic from Kali to the DMZ web server was crossing the OPT1/DMZ interface
+Confirmed pfSense was seeing the traffic, meaning the issue was likely Snort rules or signatures not matching the nmap scan
+
+-Validated Snort IDS:
+Created a test file on the DMZ web server containing a known IDS test pattern:
+echo 'uid=0(root) gid=0(root) groups=0(root)' | sudo tee /var/www/html/id.txt
+Requested the file from Kali:
+curl http://192.168.2.X/id.txt
+Confirmed Snort generated an IDS alert in pfSense:
+GPL ATTACK_RESPONSE id check returned root
+
+What I learned:
+-Learned that reducing attack surface means deciding which services are actually needed instead of just leaving remote access open by default
+-Learned how to use nmap to check exposed services on LAN and DMZ subnets, then use the results to decide what should be blocked
+-Learned that pfSense/Snort can only inspect traffic that actually passes through the monitored interface
+-Learned how to use pfSense packet capture to confirm whether traffic is crossing the expected interface before troubleshooting Snort
+-Learned that IDS alerts depend on matching signatures, so a basic nmap scan may not always trigger an alert
+-Learned the difference between IDS and IPS: IDS detects and alerts, while IPS can actively block traffic after it is configured and tuned
+-Learned how to validate Snort by generating known test traffic from Kali to the DMZ web server and confirming the alert in pfSense
+-Learned basic Wazuh agent troubleshooting by checking agent/manager service status and restarting the manager when agents showed as disconnected
