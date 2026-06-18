@@ -1,8 +1,6 @@
 # Cybersecurity Home Lab
 
-A personal cybersecurity and infrastructure home lab built in VMware Workstation on a custom-built desktop. Built to practice networking, system administration, security monitoring, Active Directory administration, firewalling, segmentation, and defensive security engineering through hands-on work.
-
-The goal is to build a small enterprise-style environment where I can configure systems, break/fix issues, monitor activity, reduce attack surface, and document the security decisions made during each lab session.
+A personal cybersecurity and infrastructure home lab built in VMware Workstation on a custom-built desktop. Built to practice networking, system administration, security monitoring, Active Directory administration, firewalling, segmentation, and cybersecurity skills through hands-on work. Includes notes and screenshots from each lab session documenting troubleshooting steps and findings.
 
 ## Environment
 
