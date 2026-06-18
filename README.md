@@ -27,16 +27,6 @@ pfSense Firewall
          |-- Ubuntu nginx Web Server
 ```
 
-## Current Lab Focus
-
-* Network segmentation with pfSense
-* Active Directory administration and hardening
-* Endpoint monitoring with Wazuh agents
-* IDS monitoring with Snort on pfSense
-* Attack surface reduction through firewall and service review
-* Detection testing from Kali against lab systems
-* Troubleshooting connectivity, firewall, routing, and service issues
-
 ## What I've Done So Far
 
 * Built a virtualized LAN and DMZ network using pfSense
