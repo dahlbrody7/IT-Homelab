@@ -1,0 +1,99 @@
+6/22/2026
+
+Fixed pfSense log forwarding, fully set up Wazuh, and used SIEM to detect and triage a real attack chain
+
+What I did:
+-Fixed pfSense syslogd stopping periodically:
+Noticed pfSense was stopping syslog forwarding to Wazuh every ~20 minutes
+Restarting syslogd from Status > Services fixed it temporarily but it kept dying
+Researched and found it is a known bug where syslogd receives a "Connection refused" message when Wazuh restarts and treats it as fatal, permanently removing Wazuh from its destination list
+Fixed by adding two floating rules in pfSense under Firewall > Rules > Floating:
+Pass rule: LAN outbound, UDP, source 192.168.10.1 port 514 to 192.168.10.50 port 514, state type None
+State type None means pfSense does not track connection state so syslogd never sees a rejection
+Block rule: LAN inbound, ICMP destination unreachable, source 192.168.10.50 to 192.168.10.1
+Blocks the rejection ICMP from ever reaching syslogd
+Restarted syslogd after applying rules, forwarding stayed stable
+
+-Enabled Wazuh archives and created dashboard index pattern:
+Created wazuh-archives-* index for pfSense logs
+Searched filterlog in Discover view and confirmed pfSense firewall logs visible
+Searched snort and confirmed Snort IDS alerts visible in archives
+
+-Simulated a full attack chain from Kali against DMZ nginx:
+Directory traversal:
+Ran directory traversal from Kali:
+curl --path-as-is http://192.168.2.10/../../../etc/passwd
+This is a directory traversal attack, it attempts to navigate above the web root using ../ sequences to access /etc/passwd
+Snort fired "SID 119:18 WEBROOT DIRECTORY TRAVERSAL"
+Alert confirmed in Wazuh archives
+SSH brute force:
+Created a custom wordlist with decoy passwords followed by the correct password osboxes.org
+Ran hydra -l osboxes -P ~/passwords.txt 192.168.2.10 ssh
+Hydra attempts each password in the file against SSH on the target
+-l is a single username, -P is a password file, -t controls threads
+Wazuh rule 5712 fired at level 10 - SSH brute force trying to get access to the system
+Dashboard medium severity alert count spiked from around 10 to 45 during the attack
+Successful login after brute force:
+Hydra found the correct password and reported: host: 192.168.2.10 login: osboxes password: osboxes.org
+Wazuh rule 5715 fired at level 3 - sshd: authentication success
+Wrote first custom Wazuh correlation rule from scratch:
+<group name="sshd,authentication_failed,">
+  <rule id="100006" level="14" frequency="10" timeframe="300">
+    <if_sid>5715</if_sid>
+    <if_matched_sid>5760</if_matched_sid>
+    <same_srcip />
+    <description>SSH brute force succeeded, multiple failures followed by success</description>
+    <mitre>
+      <id>T1110</id>
+      <id>T1078</id>
+    </mitre>
+ </rule>
+</group>
+Rule 100006 level 14 in /var/ossec/etc/rules/local_rules.xml
+Fires when rule 5715 (successful auth) fires and rule 5760 (failed auth) fired from the same source IP 10+ times within 5 minutes
+Added MITRE ATT&CK mapping: T1110 Brute Force, T1078 Valid Accounts
+Rule fired twice and appeared as high severity in the dashboard
+Suspicious file creation from inside the SSH session:
+SSHed into DMZ machine using credentials found by Hydra
+
+-Nikto web server scan:
+Ran Nikto against DMZ machine:
+nikto -h http://192.168.2.10 
+Automated web server scanner that checks for thousands of known vulnerabilities and misconfigurations
+Generated multiple Snort alerts:
+WEBROOT DIRECTORY TRAVERSAL"
+HTTP double decoding, testing for encoded URL bypass techniques
+ColdFusion admin panel probe, Nikto checks /CFIDE/administrator/ on all targets, false positive since nginx does not run ColdFusion
+Unknown technique, did not match a known Snort category
+All alerts visible in Wazuh archives
+
+-Investigated critical Shellshock alerts, determined false positive:
+Noticed 2 critical severity alerts I did not intend to create, investigated immediately
+Source IP was Kali, description referenced Shellshock CVE-2014-6271
+Shellshock is a critical bash vulnerability allowing remote code execution through HTTP headers
+Traced back to the Nikto scan from earlier in the session
+Determined false positive, authorized internal scan not an external attack
+Closed as false positive
+First real alert triage workflow: critical alert fired, investigated, identified source, confirmed false positive
+
+-DoS simulation, SYN flood:
+Ran SYN flood from Kali to DMZ machine using Kali:
+sudo hping3 -S --flood -V -p 80 192.168.2.10
+hping3 is a packet crafting tool, -S sets the TCP SYN flag, --flood sends as fast as possible
+A SYN flood sends thousands of SYN packets without completing the TCP three-way handshake
+nginx stayed up throughout the attack
+Snort detected the flood via emerging-dos rules, low severity alerts generated
+Confirmed DMZ web server has basic DoS resilience
+
+What I learned:
+-pfSense syslogd permanently stops forwarding logs if it receives a connection refused ICMP message from the remote syslog server, fixed with stateless floating rules that block the rejection
+-Wazuh archives need logall_json set to yes in ossec.conf AND the wazuh-archives-* index pattern manually created in the dashboard before logs are visible
+-Wazuh agents need read permissions on every log file they monitor, wazuh user must be in the adm group to read auth.log on Ubuntu
+-Hydra is an online password cracker, -l is single username, -P is password file, it reports credentials when it finds a match
+-John the Ripper is an offline hash cracker, it hashes candidate passwords using the same algorithm as the target and compares results locally, never touching the live system after hash extraction
+-A SYN flood exhausts the server connection table with half-open connections, mitigated by SYN cookie protection at the Linux kernel level
+-Alert triage workflow: alert fires, investigate source and context, determine true or false positive, document and close
+-SIEM flooding is a real attacker technique where noise is generated to hide real activity, mitigated by correlation rules that collapse thousands of individual events into one meaningful alert
+-Custom Wazuh rules must be inside a group tag, if_sid for the current triggering rule, if_matched_sid for prior rule correlation, same_srcip tracks frequency by source IP
+-MITRE ATT&CK technique IDs add standardized framework context to custom detection rules and appear in the ATT&CK dashboard in Wazuh
+-Building and tuning detection is engineering work, SOC analysts triage what the tools surface, engineers design and tune the tools themselves
