@@ -88,7 +88,6 @@ Confirmed DMZ web server has basic DoS resilience
 What I learned:
 -pfSense syslogd permanently stops forwarding logs if it receives a connection refused ICMP message from the remote syslog server, fixed with stateless floating rules that block the rejection
 -Wazuh archives need logall_json set to yes in ossec.conf AND the wazuh-archives-* index pattern manually created in the dashboard before logs are visible
--Wazuh agents need read permissions on every log file they monitor, wazuh user must be in the adm group to read auth.log on Ubuntu
 -Hydra is an online password cracker, -l is single username, -P is password file, it reports credentials when it finds a match
 -John the Ripper is an offline hash cracker, it hashes candidate passwords using the same algorithm as the target and compares results locally, never touching the live system after hash extraction
 -A SYN flood exhausts the server connection table with half-open connections, mitigated by SYN cookie protection at the Linux kernel level
