@@ -40,41 +40,19 @@ pfSense Firewall
 * Reviewed exposed services and made security decisions to reduce unnecessary attack surface
 * Installed and configured Snort on pfSense to monitor DMZ traffic
 * Validated Snort detection by generating test traffic from Kali to the DMZ web server and confirming IDS alerts in pfSense
-
-## Security Skills Practiced
-
-* Network segmentation
-* Firewall rule design
-* Service exposure review
-* Attack surface reduction
-* SIEM agent deployment
-* IDS configuration and validation
-* Log and alert review
-* Basic Active Directory administration
-* Troubleshooting security tooling when alerts or agents do not work as expected
-
-## Tools and Technologies
-
-* VMware Workstation
-* pfSense
-* Windows Server / Active Directory
-* Ubuntu
-* Kali Linux
-* Wazuh
-* Snort
-* nginx
-* UFW
-* nmap
-* PowerShell
-* Bash
+* Forwarded pfSense firewall and Snort IDS logs to Wazuh SIEM for centralized visibility
+* Wrote custom Wazuh correlation rule detecting SSH brute force followed by successful login (MITRE T1110, T1078)
+* Simulated full attack chain: directory traversal, SSH brute force, successful login, and suspicious file creation
+* Detected and triaged Shellshock false positive alert, confirmed source as authorized internal scan
+* Simulated SYN flood DoS attack and confirmed nginx resilience
 
 ## Coming Soon
 
-* Forward pfSense/Snort logs to Wazuh using syslog
-* Tune Wazuh alerts to reduce noise and make important events easier to investigate
-* Full IDS/IPS implementation
-* Create and investigate security events
-* Python Scripting/Automation for repetitive tasks, log parsing, and automation
+* More attack simulations and incident reports
+* Honeypot deployment
+* LAN-side IDS coverage
+* DVWA vulnerable web application for SQL injection and XSS simulation
+* AWS cloud security lab
 
 ## Certifications
 
