@@ -1,4 +1,3 @@
-```xml
 6/9/2026
 
 Familiarized myself with the Wazuh manager dashboard and deployed and tested agents on nginx and Kali machine
@@ -68,7 +67,7 @@ What I learned:
 -SSH brute-force attempts generate authentication logs, which Wazuh detects and turns into alerts
 -There are many useful fields to use when investigating alerts, such as agent.name, rule.description, rule.level, rule.id, data.srcip, full_log, and location
 -The dashboard can lag or require refreshes, tailing /var/ossec/logs/alerts/alerts.log is useful when confirming whether Wazuh is detecting something
-'''
+
 
 
 

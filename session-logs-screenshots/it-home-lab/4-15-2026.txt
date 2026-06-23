@@ -1,4 +1,3 @@
-'''xml
 4/15/2026
 
 Installed Ubuntu and nginx on VMware Workstation
@@ -27,4 +26,3 @@ What I learned:
 -Services can be started and stopped
 -Logs monitor activity
 -No log activity is generated when a service is down
-'''

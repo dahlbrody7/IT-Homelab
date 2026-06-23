@@ -1,4 +1,3 @@
-'''xml
 4/28/2026
 
 Set up pfSense and created a segmented network with LAN and DMZ
@@ -79,4 +78,3 @@ What I learned:
 -Static IPs help avoid DHCP issues and inconsistent behavior in a lab environment
 -Basic understanding of how SIEM (Wazuh) fits into a network
 -Was really cool to see so much of what I learned in Network+ in action
-'''

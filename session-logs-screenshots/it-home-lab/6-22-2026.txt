@@ -1,4 +1,3 @@
-'''xml
 6/22/2026
 
 Fixed pfSense log forwarding, fully set up Wazuh, and used SIEM to detect and triage a real attack chain
@@ -97,4 +96,3 @@ What I learned:
 -Custom Wazuh rules must be inside a group tag, if_sid for the current triggering rule, if_matched_sid for prior rule correlation, same_srcip tracks frequency by source IP
 -MITRE ATT&CK technique IDs add standardized framework context to custom detection rules and appear in the ATT&CK dashboard in Wazuh
 -Building and tuning detection is engineering work, SOC analysts triage what the tools surface, engineers design and tune the tools themselves
-'''

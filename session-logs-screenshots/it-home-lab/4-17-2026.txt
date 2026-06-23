@@ -1,4 +1,3 @@
-'''xml
 4/17/2026
 
 SSH Access Control and Session Termination
@@ -26,4 +25,3 @@ What I learned:
 -Killing the ssh session process is required to immediately disconnect an active user
 -There is a difference between service control (systemctl), network control (ufw), and process control (pid/kill)
 -This simulates a basic incident response scenario where an active unauthorized session must be identified and terminated
-'''
