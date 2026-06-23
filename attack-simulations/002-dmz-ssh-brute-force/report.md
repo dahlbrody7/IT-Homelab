@@ -3,7 +3,7 @@
 * Status: Detected, Analyzed, Contained and Resolved
 
 ## Incident Summary
-* On June 23, 2026, an SSH brute-force attack was conducted from 192.168.10.29 against the DMZ nginx server at 192.168.2.10. The attack was detected by Wazuh SIEM via authentication log monitoring. The attacker successfully authenticated after exhausting a password list, then established an interactive shell session and created a suspicious file. The session was terminated and the file was removed.
+* On June 23, 2026, an SSH brute-force attack was conducted from 192.168.10.29 against the DMZ nginx server at 192.168.2.10. The attack was detected by Wazuh SIEM via authentication log monitoring. The attacker successfully authenticated after exhausting a password list, then established an SSH session and created a suspicious file. The session was terminated and the file was removed.
 
 ## Date and Time
 * Attack occured: June 23, 2026 at 6:05 AM
@@ -16,7 +16,7 @@
 * Source IP: 192.168.10.29 (Kali Linux, LAN)
 * Destination IP: 192.168.2.10 (nginx, DMZ)
 * Target: SSH service on port 22
-* T1110.001 — Brute Force: Password Guessing, T1078 — Valid Accounts, T1105 — Ingress Tool Transfer
+* T1110.001, Brute Force: Password Guessing, T1078, Valid Accounts, T1105, Ingress Tool Transfer
 
 ## Detection Details
 * Tool: Wazuh SIEM monitoring auth.log on DMZ agent
