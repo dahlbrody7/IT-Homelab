@@ -3,7 +3,7 @@
 * Status: Detected, Analyzed, No Impact
 
 ## Incident Summary
-* On June 22, 2026, a directory traversal attack was attempted from Kali Linux at 192.168.10.29 against the nginx web server hosted in the DMZ (192.168.2.10). The attack was detected by Snort IDS and forwarded to Wazuh SIEM. The attack was unsuccessful, nginx returned a 404 and no files were shown. No further activity was detected from the source IP.
+* On June 23, 2026, a directory traversal attack was attempted from Kali Linux at 192.168.10.29 against the nginx web server hosted in the DMZ (192.168.2.10). The attack was detected by Snort IDS and forwarded to Wazuh SIEM. The attack was unsuccessful, nginx returned a 404 and no files were shown. No further activity was detected from the source IP.
 
 ## Date and Time
 * Attack occured: June 23, 2026 at 12:55 AM
@@ -37,4 +37,4 @@
 ## Recommendations
 * Enable Snort's IPS to block request
 * Periodically audit nginx configuration to ensure the root directive is properly scoped
-* Create a Wazuh correlation rule to escalate repeated traversal attempts from the same source IP as potential active reconnaissance
+* Create a Wazuh correlation rule to escalate repeated traversal attempts from the same source IP
