@@ -26,19 +26,19 @@
 
 ## Investigation
 * Reviewed Wazuh alerts,  rule 5712 fired indicating rapid successive authentication failures from 192.168.10.29 against user osboxes. The dashboard's medium severity count spiked from approximately 10 to 45 alerts during the attack. Custom correlation rule 100006 subsequently fired at level 14 when a successful authentication was recorded from the same source IP, confirming the brute force succeeded.
-* Reviewed auth.log on the DMZ machine and confirmed the sequence of failed logins followed by a successful login from 192.168.10.29. Post-authentication, a file named invoice.pdf.exe was created in /tmp, a double extension masquerading technique commonly used to disguise executables as documents. Wazuh detected the file creation via real-time monitoring of /tmp.
+* Reviewed auth.log on the DMZ machine and confirmed the sequence of failed logins followed by a successful login from 192.168.10.29. Post-authentication, a file named invoice.pdf.exe was created in /Documents, a double extension masquerading technique commonly used to disguise executables as documents. Wazuh detected the file creation via real-time monitoring of /Documents.
 No further lateral movement was detected. Source IP made no attempts to reach LAN-side hosts following the compromise.
 
 ## Impact
 * Valid credentials obtained via brute force
 * Interactive shell access established on DMZ server
-* Suspicious file created in /tmp (invoice.pdf.exe)
+* Suspicious file created in /Documents (invoice.pdf.exe)
 * No data exfiltration detected
 * No lateral movement to LAN
 
 ## Response and Containment
 * Terminated active SSH session from source IP
-* Removed invoice.pdf.exe from /tmp
+* Removed invoice.pdf.exe from /Documents
 * Verified no additional accounts were created on the DMZ machine
 * Changed user passwords
 
