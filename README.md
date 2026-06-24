@@ -2,10 +2,10 @@
 A personal cybersecurity home lab built in VMware Workstation on a custom-built desktop. Designed to simulate a segmented enterprise network and to learn and practice real IT and security operations including network configuration, system administration, Active Directory management, attack simulations, SIEM, and incident response. All attacks were conducted in an isolated lab environment and documented as formal incident reports. Also includes session logs and screenshots.
 
 ## Environment
-**Host:** Custom-built desktop
-**CPU:** Ryzen 7 7800X3D
-**RAM:** 32GB
-**Hypervisor:** VMware Workstation
+* Host: Custom-built desktop
+* CPU: Ryzen 7 7800X3D
+* RAM: 32GB
+* Hypervisor: VMware Workstation
 
 ## Topology
 ![Lab Architecture](lab-network-topology.png)
@@ -16,7 +16,6 @@ A personal cybersecurity home lab built in VMware Workstation on a custom-built 
 * Deployed Snort IDS on DMZ interface and integrated alerts into Wazuh via syslog
 * Simulated attack chains including directory traversal, SSH brute force, and Active Directory post-exploitation with DCSync credential harvesting
 * Documented attack simulations as formal incident reports with detection analysis, impact assessment, and recommendations
-
 
 ## Coming Soon
 * More attack simulations and incident reports
