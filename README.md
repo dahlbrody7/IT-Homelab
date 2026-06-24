@@ -28,4 +28,4 @@ A personal cybersecurity home lab built in VMware Workstation on a custom-built 
 * CompTIA Network+ (N10-009)
 * CompTIA Security+ (SY0-701)
 
-## [![LinkedIn]([https://linkedin.com/in/yourprofile](https://www.linkedin.com/in/brody-dahl-8072a6406/))
+## [LinkedIn](https://linkedin.com/in/yourprofile](https://www.linkedin.com/in/brody-dahl-8072a6406/)
