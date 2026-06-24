@@ -12,9 +12,9 @@ A personal cybersecurity home lab built in VMware Workstation on a custom-built 
 
 ## What I've Done So Far
 * Designed and deployed segmented network infrastructure with pfSense, including firewall rules, DMZ isolation, and inter-segment traffic control
-* Configured Wazuh SIEM with endpoint agents, custom decoders, and correlation rules for centralized detection and alerting
-* Deployed Snort IDS on DMZ interface and integrated alerts into Wazuh via syslog
-* Simulated attack chains including directory traversal, SSH brute force, and Active Directory post-exploitation with DCSync credential harvesting
+* Configured Wazuh SIEM with endpoint agents and correlation rules for centralized detection and alerting
+* Deployed Snort IDS and integrated alerts into Wazuh via syslog
+* Simulated attack chains including directory traversal, SSH brute force, and Active Directory credential harvesting
 * Documented attack simulations as formal incident reports with detection analysis, impact assessment, and recommendations
 
 ## Coming Soon
