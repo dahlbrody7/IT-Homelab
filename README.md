@@ -9,21 +9,7 @@ A personal cybersecurity and infrastructure home lab built in VMware Workstation
 **RAM:** 32GB
 **Hypervisor:** VMware Workstation
 
-## Network Architecture
-
-```text
-WAN / NAT
-   |
-pfSense Firewall
-   |
-   |-- LAN: 192.168.10.0/24
-   |     |-- Kali Linux
-   |     |-- Wazuh Manager
-   |     |-- Windows Server / Active Directory Domain Controller
-   |
-   |-- DMZ: 192.168.2.0/24
-         |-- Ubuntu nginx Web Server
-```
+![Lab Architecture](lab-network-topology.png)
 
 ## What I've Done So Far
 
