@@ -1,39 +1,24 @@
 # Cybersecurity Home Lab
-
-A personal cybersecurity and infrastructure home lab built in VMware Workstation on a custom-built desktop. Built to practice networking, system administration, security monitoring, Active Directory administration, firewalling, segmentation, and cybersecurity skills through hands-on work. Includes notes and screenshots from each lab session documenting troubleshooting steps and findings.
+A personal cybersecurity home lab built in VMware Workstation on a custom-built desktop. Designed to simulate a segmented enterprise network and to learn and practice real IT and security operations including network configuration, system administration, Active Directory management, attack simulations, SIEM, and incident response. All attacks were conducted in an isolated lab environment and documented as formal incident reports. Also includes session logs and screenshots.
 
 ## Environment
-
 **Host:** Custom-built desktop
 **CPU:** Ryzen 7 7800X3D
 **RAM:** 32GB
 **Hypervisor:** VMware Workstation
 
+## Topology
 ![Lab Architecture](lab-network-topology.png)
 
 ## What I've Done So Far
+* Designed and deployed segmented network infrastructure with pfSense, including firewall rules, DMZ isolation, and inter-segment traffic control
+* Configured Wazuh SIEM with endpoint agents, custom decoders, and correlation rules for centralized detection and alerting
+* Deployed Snort IDS on DMZ interface and integrated alerts into Wazuh via syslog
+* Simulated attack chains including directory traversal, SSH brute force, and Active Directory post-exploitation with DCSync credential harvesting
+* Documented attack simulations as formal incident reports with detection analysis, impact assessment, and recommendations
 
-* Built a virtualized LAN and DMZ network using pfSense
-* Configured pfSense firewall rules to control traffic between LAN and DMZ
-* Deployed an Ubuntu nginx web server in the DMZ
-* Configured UFW firewall rules and tested exposed services with nmap
-* Set up SSH and tested authentication logging
-* Simulated basic incident response by terminating an active SSH session
-* Diagnosed and fixed networking issues involving routing, DHCP, firewall rules, and Linux/Windows system configuration
-* Deployed Wazuh SIEM on an Ubuntu server
-* Installed Wazuh agents on lab machines and verified agent connectivity
-* Built a Windows Server Active Directory domain controller
-* Reviewed exposed services and made security decisions to reduce unnecessary attack surface
-* Installed and configured Snort on pfSense to monitor DMZ traffic
-* Validated Snort detection by generating test traffic from Kali to the DMZ web server and confirming IDS alerts in pfSense
-* Forwarded pfSense firewall and Snort IDS logs to Wazuh SIEM for centralized visibility
-* Wrote custom Wazuh correlation rule detecting SSH brute force followed by successful login (MITRE T1110, T1078)
-* Simulated full attack chain: directory traversal, SSH brute force, successful login, and suspicious file creation
-* Detected and triaged Shellshock false positive alert, confirmed source as authorized internal scan
-* Simulated SYN flood DoS attack and confirmed nginx resilience
 
 ## Coming Soon
-
 * More attack simulations and incident reports
 * Honeypot deployment
 * LAN-side IDS coverage
@@ -41,6 +26,5 @@ A personal cybersecurity and infrastructure home lab built in VMware Workstation
 * AWS cloud security lab
 
 ## Certifications
-
 * CompTIA Network+ (N10-009)
 * CompTIA Security+ (SY0-701)
