@@ -1,4 +1,5 @@
 # Cybersecurity Home Lab
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue)]([https://linkedin.com/in/yourprofile](https://www.linkedin.com/in/brody-dahl-8072a6406/))
 A personal cybersecurity home lab built in VMware Workstation on a custom-built desktop. Designed to simulate a segmented enterprise network and to learn and practice real IT and security operations including network configuration, system administration, Active Directory management, attack simulations, SIEM, and incident response. All attacks were conducted in an isolated lab environment and documented as formal incident reports. Also includes session logs and screenshots.
 
 ## Environment
