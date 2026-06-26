@@ -18,8 +18,7 @@ A personal cybersecurity home lab built in VMware Workstation on a custom-built 
 * Documented attack simulations as formal incident reports with detection analysis, impact assessment, and recommendations
 * Maintained session logs throughout documenting configuration, troubleshooting, and what I learned
 
-## Coming Soon
-* More attack simulations and incident reports
+## Next
 * AWS cloud security lab
 
 ## Certifications
