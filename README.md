@@ -10,18 +10,16 @@ A personal cybersecurity home lab built in VMware Workstation on a custom-built 
 ## Topology
 ![Lab Architecture](lab-network-topology.png)
 
-## What I've Done So Far
+## Projects and Accomplishments
 * Designed and deployed segmented network infrastructure with pfSense, including firewall rules, DMZ isolation, and inter-segment traffic control
 * Configured Wazuh SIEM with endpoint agents and correlation rules for centralized detection and alerting
 * Deployed Snort IDS and integrated alerts into Wazuh via syslog
-* Simulated attack chains including directory traversal, SSH brute force, and Active Directory credential harvesting
+* Simulated attack chains with Kali Linux including directory traversal, SSH brute force, and Active Directory credential harvesting, using tools like Hydra, nmap, curl, and Mimikatz
 * Documented attack simulations as formal incident reports with detection analysis, impact assessment, and recommendations
+* Maintained session logs throughout documenting configuration, troubleshooting, and what I learned
 
 ## Coming Soon
 * More attack simulations and incident reports
-* Honeypot deployment
-* LAN-side IDS coverage
-* DVWA vulnerable web application for SQL injection and XSS simulation
 * AWS cloud security lab
 
 ## Certifications
